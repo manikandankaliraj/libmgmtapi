@@ -4,7 +4,10 @@ import org.mk.librarymgmt.entity.Book;
 import org.mk.librarymgmt.entity.Library;
 import org.mk.librarymgmt.repository.BookRepository;
 import org.mk.librarymgmt.service.BookService;
+import org.mk.librarymgmt.service.ValidationCollection;
+import org.mk.librarymgmt.service.Validator;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Repository;
 import org.springframework.stereotype.Service;
 
@@ -20,6 +23,11 @@ public class BookServiceImpl implements BookService {
 
     @Autowired
     BookRepository bookRepository;
+
+    @Autowired
+    ValidationCollection validators;
+
+
 
 
     @Override
@@ -43,7 +51,14 @@ public class BookServiceImpl implements BookService {
 
     @Override
     public Book addBook(Book book) throws Exception {
-        return bookRepository.save(book);
+        validators.addValidator(new BookValidator());
+        for(Validator  validator:validators.getValidators()) {
+            if (validator.validate(book))
+                bookRepository.save(book);
+            else
+                throw new Exception("validation failed");
+        }
+        return book;
     }
 
     @Override

@@ -35,7 +35,15 @@ public class BooksController {
 
     @PostMapping("/books")
     public ResponseEntity addBook(@RequestBody Book book) throws Exception {
-        return new ResponseEntity<Book>(bookService.addBook(book), HttpStatus.OK);
+        try{
+            bookService.addBook(book);
+        }catch(Exception e){
+            Response resp = new Response();
+            resp.setSuccess(false);
+            resp.setRespMsg(e.getMessage());
+            return new ResponseEntity<Object>(resp, HttpStatus.OK);
+        }
+        return new ResponseEntity<Object>(book, HttpStatus.OK);
 
     }
 

@@ -1,9 +1,9 @@
 package org.mk.librarymgmt.entity;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import org.hibernate.annotations.Cascade;
+
+import javax.persistence.*;
+import java.util.Set;
 
 /**
  * @author Manikandan
@@ -16,7 +16,19 @@ public class Library {
     private Long id;
     private String name;
 
+    @OneToMany()
+    @JoinColumn(name = "libraryId")
+    private Set<Book> books;
+
     public Library() {
+    }
+
+    public Set<Book> getBooks() {
+        return books;
+    }
+
+    public void setBooks(Set<Book> books) {
+        this.books = books;
     }
 
     public Library(String name) {

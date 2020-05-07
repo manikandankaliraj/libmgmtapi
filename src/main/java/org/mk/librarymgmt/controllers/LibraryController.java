@@ -16,7 +16,7 @@ import java.util.List;
  * @author Manikandan
  */
 @RestController
-@CrossOrigin(origins = "http://localhost:3000")
+@CrossOrigin(origins = "${cross.origin.url}")
 public class LibraryController {
     @Autowired
     LibraryService libraryService;
