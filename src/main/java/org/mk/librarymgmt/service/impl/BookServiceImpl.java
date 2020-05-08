@@ -24,6 +24,8 @@ public class BookServiceImpl implements BookService {
     @Autowired
     BookRepository bookRepository;
 
+
+
     @Autowired
     ValidationCollection validators;
 
@@ -74,5 +76,13 @@ public class BookServiceImpl implements BookService {
         Optional.ofNullable(bookRepository.findById(bookId))
                 .orElseThrow(() -> new Exception("Book not exists"))
                 .ifPresent(book -> bookRepository.delete(book));
+    }
+
+    public ValidationCollection getValidators() {
+        return validators;
+    }
+
+    public void setValidators(ValidationCollection validators) {
+        this.validators = validators;
     }
 }
